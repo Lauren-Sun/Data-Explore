@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<style>
+    th{
+        color:#fff;
+            }
+</style>
+
+</head>
+<body>
+<table class="table table-striped">
+    <tbody id="city">
+    </tbody>
+</table>
+<table class="table table-striped">
+    <tbody id="country">
+    </tbody>
+</table>
+<table class="table table-striped">
+    <tbody id="countrylanguage">
+    </tbody>
+</table>
+<script>
+
+	var myArray = {{data_list|safe}};
+    createTable(myArray)
+	buildTable(myArray)
+    function createTable(data) {
+          for(var i=0;i<data.length;i++){
+              var columns=''
+              var tab=data[i].table
+
+                  for(var key in data[i]){
+
+                       columns+="<td>"+key+"</td>"
+
+              } var tableData="<tr class='bg-info'>"+columns+'</tr>'
+                      if (tab == 'country'){
+                           var table = document.getElementById('country')
+                      }
+
+                  table.innerHTML += tableData
+          }
+
+        }
+	function buildTable(data){
+		var table = document.getElementById('country')
+		for (var i = 0; i < data.length; i++){
+			var row = ''
+            for (var key in data[i]) {
+                if (data[i][key]== null){
+                                    row+='<td>'+'null'+'</td>'
+                }
+                row+='<td>'+data[i][key]+'</td>'
+            }
+        table.innerHTML += '<tr>'+row+'</tr>'
+		}
+	}
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
