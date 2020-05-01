@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset = "UTF-8">
+    <title>Result</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        body{
+            margin:0;
+            padding:0;
+            /*background-color:#84AF9B;*/
+            background-color: #F0F8FF;
+        }
+
+        h1{
+            /*color:#145A32;*/
+            color:#008080;
+            /*color:#BBFFEE;*/
+            text-align:center;
+            margin-top: 60px;
+            padding-top: 40px;
+            font-size: 50px;
+            /*font-family: Verdana;*/
+            font-family:Georgia;
+            font-weight:600;
+        }
+        .search-box{
+            position: absolute;
+            top:33%;
+            left:57%;
+            transform:translate(-50%,-50%);
+            background: white;
+            height:45px;
+            border-radius: 40px;
+            padding:10px;
+            width:300px;
+        }
+        .search-btn{
+            /*color:darkgreen;*/
+            color:#008080;
+            float:right;
+            width:30px;
+            height: 30px;
+            border-radius:50%;
+            display:flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .search-txt{
+            border:none;
+            background:none;
+            outline:none;
+            float:left;
+            padding:0;
+            color:black;
+            font-size:16px;
+            transition:0.4s;
+            line-height:30px;
+            width:240px;
+        }
+        .dropbtn {
+            /*background-color:#145A32;*/
+            background-color:#008080;
+            color: white;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            border-radius:40px;
+            height:42px;
+        }
+
+        .dropdown {
+            position: absolute;
+            display: inline-block;
+            top:30%;
+            left:32%;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        }
+
+        .dropdown-content a:hover {background-color: #f1f1f1}
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #B0C4DE;
+        }
+        form{
+            width:600px;
+            margin-top: 180px;
+            margin-left:350px;
+        }
+        .table{
+            border-collapse: collapse;
+            margin: 0 auto;
+            text-align: center;
+            /*margin-left: 100px;*/
+            /*font-family: Futura, Arial, sans-serif;*/
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            width:90%;
+
+        }
+        th,td {
+            padding: .65em;
+        }
+        td{
+            font-size:15px;
+        }
+        th {
+            background-color: darkgreen;
+           /* border: 1px solid #777; */
+            color: #fff;
+        }
+        tbody tr:nth-child(odd) {
+            background: #ccc;
+        }
+        table tr:hover {background-color: lightgray;}
+        .info{
+            position: absolute;
+            /*width: 300px;*/
+            /*height: 200px;*/
+            margin-left: 6%;
+            /*padding-left: 200px;*/
+            text-align: center;
+        }
+
+    </style>
+    <script defer src = "https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <title>INF551_project</title>
+</head>
+
+<body>
+
+    <div>
+        <h1>
+            Data Explore
+        </h1>
+    </div>
+
+
+     <form method="get" action="/getdata/">
+<!--          <div class="dropdown">-->
+
+<!--&lt;!&ndash;            <select name = "Database" id="Database"   class="dropbtn" >&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            <div class="dropdown-content">&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                <option value = "world" >World</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                <option value = "sakila" >Sakila</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                <option value = "basketballWoman"  >Basketball Woman</option>&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            </div>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;            </select>&ndash;&gt;-->
+<!--          </div>-->
+          <div class = 'search-box'>
+            <input class = "search-txt" type="text" name="search" placeholder=" Type to search">
+            <button class="search-btn" onclick="location.href='{%url 'get'%}'"><i class="fas fa-search"></i>
+            </button>
+          </div>
+         <text class = 'info'>
+             {{info}}
+         </text>
+
+     </form>
+     <form class = 'table'>
+         <table class="table table-striped">
+            <tbody id="country"></tbody>
+         </table>
+
+        <table class="table table-striped">
+            <tbody id="city">
+            </tbody>
+        </table>
+
+        <table class="table table-striped">
+            <tbody id="countrylanguage">
+            </tbody>
+        </table>
+
+        <table class="table table-striped">
+            <tbody id="awards_players">
+            </tbody>
+        </table>
+
+        <table class="table table-striped">
+            <tbody id="players">
+            </tbody>
+        </table>
+
+        <table class="table table-striped">
+            <tbody id="players_teams">
+            </tbody>
+        </table>
+
+        <table class="table table-striped">
+            <tbody id="actor">
+            </tbody>
+        </table>
+        <table class="table table-striped">
+            <tbody id="film">
+            </tbody>
+        </table>
+
+        <table class="table table-striped">
+            <tbody id="film_actor">
+            </tbody>
+        </table>
+    </form>
+    <script>
+    $("#Database option").each(function() {
+        var data={{dataset|safe}}
+        if($(this).val()==data){
+            $(this).prop('selected',true);
+            }
+    });
+</script>
+<script type="text/javascript">
+    var selectname={{dataset|safe}};
+    function display(optionID){
+       var all_options = document.getElementById("Database").options;
+       for (i=0; i<all_options.length; i++){
+          if (all_options[i].id == optionID)  // 根据option标签的ID来进行判断  测试的代码这里是两个等号
+          {
+             all_options[i].selected = true;
+          }
+       }
+    };
+display(selectname);
+	</script>
+
+<script>
+
+	var myArray = {{data_list|safe}};
+
+    createTable(myArray)
+    buildTable(myArray)
+
+   function createTable(data) {
+       var all= new Array();
+      for(var i=0;i<data.length;i++) {
+          var columns='';
+            var tab = data[i].table;
+            var tableData='';
+          if (tab == 'city') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>";
+              }
+              tableData="<tr class='bg-info'>"+columns+'</tr>';
+              all['city']=tableData;
+          }
+          if (tab == 'country') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>"
+              }
+              tableData="<tr class='bg-info'>"+columns+'</tr>';
+              all['country']=tableData;
+          }
+          if (tab == 'countrylanguage') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>"
+              }
+              tableData = "<tr class='bg-info'>" + columns + '</tr>';
+              all['countrylanguage'] = tableData;
+
+          }
+          if (tab == 'awards_players') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>";
+              }
+              tableData="<tr class='bg-info'>"+columns+'</tr>';
+              all['awards_players']=tableData;
+
+          }
+          if (tab == 'players') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>"
+              }
+              tableData="<tr class='bg-info'>"+columns+'</tr>';
+              all['players']=tableData;
+          }
+          if (tab == 'players_teams') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>"
+              }
+              tableData = "<tr class='bg-info'>" + columns + '</tr>';
+              all['players_teams'] = tableData;
+
+          }
+          if (tab == 'actor') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>";
+              }
+              tableData="<tr class='bg-info'>"+columns+'</tr>';
+              all['actor']=tableData;
+
+          }
+          if (tab == 'film') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>"
+              }
+              tableData="<tr class='bg-info'>"+columns+'</tr>';
+              all['film']=tableData;
+          }
+          if (tab == 'film_actor') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>"
+              }
+              tableData = "<tr class='bg-info'>" + columns + '</tr>';
+              all['film_actor'] = tableData;
+
+          }
+      }
+      for (i in all){
+          if (i=='city'){
+              var table = document.getElementById('city');
+              table.innerHTML += all[i];
+          }
+          if(i=='country'){
+              var table = document.getElementById('country');
+              table.innerHTML += all[i];
+          }
+          if(i=='countrylanguage'){
+              var table = document.getElementById('countrylanguage');
+              table.innerHTML += all[i];
+          }
+          if (i=='awards_players'){
+              var table = document.getElementById('awards_players');
+              table.innerHTML += all[i];
+          }
+          if(i=='players'){
+              var table = document.getElementById('players');
+              table.innerHTML += all[i];
+          }
+          if(i=='players_teams'){
+              var table = document.getElementById('players_teams');
+              table.innerHTML += all[i];
+          }
+          if (i=='actor'){
+              var table = document.getElementById('actor');
+              table.innerHTML += all[i];
+          }
+          if(i=='film'){
+              var table = document.getElementById('film');
+              table.innerHTML += all[i];
+          }
+          if(i=='film_actor'){
+              var table = document.getElementById('film_actor');
+              table.innerHTML += all[i];
+          }
+
+      }
+        }
+	function buildTable(data){
+		for (var i = 0; i < data.length; i++){
+            var table = document.getElementById(data[i]['table'])
+
+			var row = ''
+            for (var key in data[i]) {
+                if (data[i][key]== null && data[i][key]!=0){
+                                    row+='<td>'+'null'+'</td>'
+                }
+                if(key=='Code'||key=='CountryCode'){
+                    // var url="http://127.0.0.1:8000/selectdata/?name=%s"%m
+                    // var left='<a herf="%s">'
+                    //  // noinspection JSAnnotator
+                    var m=data[i][key]
+                    var n=data[i]['table']
+                    row+='<td>'+`<a href="http://127.0.0.1:8000/selectdata/?name=${m}&table=${n}&sub=${n}&dataset=world">${data[i][key]}</a>`+'</td>'
+                }else if(key=='playerID'||key=='bioID'){
+                    var m=data[i][key]
+                    var n=data[i]['table']
+                    row+='<td>'+`<a href="http://127.0.0.1:8000/selectdata/?name=${m}&table=${n}&sub=${n}&dataset=basketballWoman">${data[i][key]}</a>`+'</td>'}
+                else if(key=='film_id'){
+                    var m=data[i][key]
+                    var n=data[i]['table']
+                    row+='<td>'+`<a href="http://127.0.0.1:8000/selectdata/?name=${m}&table=${n}&sub=film&dataset=sykila">${data[i][key]}</a>`+'</td>'
+                }
+                else if(key=='actor_id'){
+                    var m=data[i][key]
+                    var n=data[i]['table']
+                    row+='<td>'+`<a href="http://127.0.0.1:8000/selectdata/?name=${m}&table=${n}&sub=actor&dataset=sakila">${data[i][key]}</a>`+'</td>'
+                }
+                else{
+                    row+='<td>'+data[i][key]+'</td>'
+                }
+
+
+
+
+            }
+        table.innerHTML += '<tr>'+row+'<tr>'
+		}
+	}
+</script>
+<script>
+
+	var myArray = {{data|safe}};
+
+    createTable(myArray)
+    buildTable(myArray)
+
+   function createTable(data) {
+       var all= new Array();
+      for(var i=0;i<data.length;i++) {
+          var columns='';
+            var tab = data[i].table;
+            var tableData='';
+          if (tab == 'city') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>";
+              }
+              tableData="<tr class='bg-info'>"+columns+'</tr>';
+              all['city']=tableData;
+          }
+          if (tab == 'country') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>"
+              }
+              tableData="<tr class='bg-info'>"+columns+'</tr>';
+              all['country']=tableData;
+          }
+          if (tab == 'countrylanguage') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>"
+              }
+              tableData = "<tr class='bg-info'>" + columns + '</tr>';
+              all['countrylanguage'] = tableData;
+
+          }
+          if (tab == 'awards_players') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>";
+              }
+              tableData="<tr class='bg-info'>"+columns+'</tr>';
+              all['awards_players']=tableData;
+
+          }
+          if (tab == 'players') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>"
+              }
+              tableData="<tr class='bg-info'>"+columns+'</tr>';
+              all['players']=tableData;
+          }
+          if (tab == 'players_teams') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>"
+              }
+              tableData = "<tr class='bg-info'>" + columns + '</tr>';
+              all['players_teams'] = tableData;
+
+          }
+          if (tab == 'actor') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>";
+              }
+              tableData="<tr class='bg-info'>"+columns+'</tr>';
+              all['actor']=tableData;
+
+          }
+          if (tab == 'film') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>"
+              }
+              tableData="<tr class='bg-info'>"+columns+'</tr>';
+              all['film']=tableData;
+          }
+          if (tab == 'film_actor') {
+              for (var key in data[i]) {
+                  columns += "<td>" + key + "</td>"
+              }
+              tableData = "<tr class='bg-info'>" + columns + '</tr>';
+              all['film_actor'] = tableData;
+
+          }
+      }
+      for (i in all){
+          if (i=='city'){
+              var table = document.getElementById('city');
+              table.innerHTML += all[i];
+          }
+          if(i=='country'){
+              var table = document.getElementById('country');
+              table.innerHTML += all[i];
+          }
+          if(i=='countrylanguage'){
+              var table = document.getElementById('countrylanguage');
+              table.innerHTML += all[i];
+          }
+          if (i=='awards_players'){
+              var table = document.getElementById('awards_players');
+              table.innerHTML += all[i];
+          }
+          if(i=='players'){
+              var table = document.getElementById('players');
+              table.innerHTML += all[i];
+          }
+          if(i=='players_teams'){
+              var table = document.getElementById('players_teams');
+              table.innerHTML += all[i];
+          }
+          if (i=='actor'){
+              var table = document.getElementById('actor');
+              table.innerHTML += all[i];
+          }
+          if(i=='film'){
+              var table = document.getElementById('film');
+              table.innerHTML += all[i];
+          }
+          if(i=='film_actor'){
+              var table = document.getElementById('film_actor');
+              table.innerHTML += all[i];
+          }
+
+      }
+        }
+	function buildTable(data){
+		for (var i = 0; i < data.length; i++){
+            var table = document.getElementById(data[i]['table'])
+
+			var row = ''
+            for (var key in data[i]) {
+                if (data[i][key]== null&& data[i][key] != 0){
+                                    row+='<td>'+'null'+'</td>'
+                }
+                if(key=='Code'||key=='CountryCode'){
+
+                    var m=data[i][key]
+                    var n=data[i]['table']
+                    row+='<td>'+`<a href="http://127.0.0.1:8000/selectdata/?name=${m}&table=${n}&sub=${n}&dataset=world">${data[i][key]}</a>`+'</td>'
+                }else if(key=='playerID'||key=='bioID'){
+                    var m=data[i][key]
+                    var n=data[i]['table']
+                    row+='<td>'+`<a href="http://127.0.0.1:8000/selectdata/?name=${m}&table=${n}&sub=${n}&dataset=basketballWoman">${data[i][key]}</a>`+'</td>'
+                }
+                else if(key=='film_id'){
+                    var m=data[i][key]
+                    var n=data[i]['table']
+                    var z='sakila'
+                    row+='<td>'+`<a href="http://127.0.0.1:8000/selectdata/?name=${m}&table=${n}&sub=film&dataset=${z}">${data[i][key]}</a>`+'</td>'
+                }
+                else if(key=='actor_id'){
+                    var m=data[i][key]
+                    var n=data[i]['table']
+                    row+='<td>'+`<a href="http://127.0.0.1:8000/selectdata/?name=${m}&table=${n}&sub=actor&dataset=sakila">${data[i][key]}</a>`+'</td>'
+                }
+                else{
+                    row+='<td>'+data[i][key]+'</td>'
+
+                }
+
+            }
+        table.innerHTML += '<tr>'+row+'<tr>'
+		}
+	}
+</script>
+<!--    <script>-->
+<!--        var database={{dataset|safe}}-->
+<!--        var search={{key|safe}}-->
+<!--        function back() {-->
+<!--             <a href="http://127.0.0.1:8000/getdata/?Database=${database}&search=${search}">bak </a>-->
+
+<!--        }-->
+<!--    </script>-->
+
+</body>
+</html>
